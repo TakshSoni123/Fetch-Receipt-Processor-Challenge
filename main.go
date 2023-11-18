@@ -4,13 +4,22 @@ import (
 	"fmt"
 	"net/http"
 	"receipt-processor-backend/handlers"
+	"receipt-processor-backend/models"
+
+	"github.com/julienschmidt/httprouter"
 )
 
 func main() {
 
 	fmt.Print("Started service...")
 
-	http.HandleFunc("/receipts/process", handlers.ProcessReceipt)
+	models.Receipts = make(map[string]models.Receipt)
 
+	router := httprouter.New()
+
+	router.POST("/receipts/process", handlers.ProcessReceipt)
+	router.GET("/receipts/:id/points", handlers.GetPoints)
+
+	http.Handle("/", router)
 	http.ListenAndServe(":8080", nil)
 }
