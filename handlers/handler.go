@@ -10,6 +10,14 @@ import (
 	"github.com/julienschmidt/httprouter"
 )
 
+// Health API
+func Health(w http.ResponseWriter, r *http.Request, params httprouter.Params) {
+	w.Header().Set("Content-Type", "text/plain")
+	w.WriteHeader(http.StatusOK)
+	w.Write([]byte("Server is running..."))
+}
+
+// Handler function for POST receipt API
 func ProcessReceipt(w http.ResponseWriter, r *http.Request, params httprouter.Params) {
 
 	//Create new receipt
@@ -43,6 +51,7 @@ func ProcessReceipt(w http.ResponseWriter, r *http.Request, params httprouter.Pa
 
 }
 
+// Handler function for calculating and return points per receipt
 func GetPoints(w http.ResponseWriter, r *http.Request, params httprouter.Params) {
 	receiptId := params.ByName("id")
 

@@ -1,7 +1,6 @@
 package helper
 
 import (
-	"fmt"
 	"math"
 	"receipt-processor-backend/models"
 	"strconv"
@@ -10,6 +9,7 @@ import (
 	"unicode"
 )
 
+// Calculate total points for the receipt
 func CalculatePoints(receipt models.Receipt) (int, error) {
 	points := 0
 
@@ -21,14 +21,11 @@ func CalculatePoints(receipt models.Receipt) (int, error) {
 	}
 	points += pointsFromReceiptTotal
 
-	fmt.Printf("\n Points after receipt total : %d \n", points)
-
 	pointsFromReceiptItems, err := calculatePointsFromItems(receipt)
 	if err != nil {
 		return 0, err
 	}
 	points += pointsFromReceiptItems
-	fmt.Printf("\n Points after receipt items : %d \n", points)
 
 	pointsFromReceiptPurchaseDateTime, err := calculatePointsFromPurchaseDateTime(receipt)
 	if err != nil {
@@ -39,6 +36,7 @@ func CalculatePoints(receipt models.Receipt) (int, error) {
 	return points, nil
 }
 
+// Calculate points based on Retailer name
 func calculatePointsFromRetailerName(receipt models.Receipt) int {
 	count := 0
 
@@ -51,6 +49,7 @@ func calculatePointsFromRetailerName(receipt models.Receipt) int {
 	return count
 }
 
+// Calulate points based on Receipt Total
 func calculatePointsFromReceiptTotal(receipt models.Receipt) (int, error) {
 	total, err := strconv.ParseFloat(receipt.Total, 64)
 	if err != nil {
@@ -71,6 +70,7 @@ func calculatePointsFromReceiptTotal(receipt models.Receipt) (int, error) {
 
 }
 
+// Calculate points based on Recipt Items
 func calculatePointsFromItems(receipt models.Receipt) (int, error) {
 
 	returnPoints := 0
@@ -96,6 +96,7 @@ func calculatePointsFromItems(receipt models.Receipt) (int, error) {
 
 }
 
+// Caluclate points based on Purchase Date and Time
 func calculatePointsFromPurchaseDateTime(receipt models.Receipt) (int, error) {
 
 	returnPoints := 0

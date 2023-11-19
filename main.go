@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"net/http"
 	"receipt-processor-backend/handlers"
 	"receipt-processor-backend/models"
@@ -11,12 +10,11 @@ import (
 
 func main() {
 
-	fmt.Print("Started service...")
-
 	models.Receipts = make(map[string]models.Receipt)
 
 	router := httprouter.New()
 
+	router.GET("/", handlers.Health)
 	router.POST("/receipts/process", handlers.ProcessReceipt)
 	router.GET("/receipts/:id/points", handlers.GetPoints)
 
